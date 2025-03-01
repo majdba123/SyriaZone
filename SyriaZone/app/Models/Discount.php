@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order_Product extends Model
+class Discount extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'order_id',
+        'vendor_id',
         'product_id',
-        'quantity',
-        'total_price',
+        'percent',
+        'status',
 
 
     ];
-    public function order()
+    public function vendor()
     {
-        return $this->belongsTo(Order::class,'order_id');
+        return $this->belongsTo(vendor::class,'vendor_id');
     }
     public function Product()
     {

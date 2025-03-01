@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
     ];
 
@@ -42,4 +43,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function order()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function coupon()
+    {
+        return $this->hasMany(Coupon::class);
+    }
+
+    public function vendor()
+    {
+        return $this->hasOne(vendor::class);
+    }
+
+
 }

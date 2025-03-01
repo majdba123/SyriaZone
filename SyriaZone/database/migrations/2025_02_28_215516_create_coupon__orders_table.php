@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Coupon;
+use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('coupon__orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Coupon::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(Order::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('value');
             $table->timestamps();
         });
     }

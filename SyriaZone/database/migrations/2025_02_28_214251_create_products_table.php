@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Sub_Categort;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,10 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Sub_Categort::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('name');
+            $table->string('discription');
+            $table->string('price');
             $table->timestamps();
         });
     }
