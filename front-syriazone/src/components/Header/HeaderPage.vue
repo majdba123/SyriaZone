@@ -28,7 +28,6 @@ export default {
 </script>
 
 <style>
-/* نفس الـ CSS الموجود لديك */
 * {
   margin: 0;
   padding: 0;
@@ -43,8 +42,8 @@ body {
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
+  justify-content: space-around;
+  padding: 10px 10px;
   background-color: #131921;
   color: white;
 }
@@ -63,8 +62,8 @@ body {
 .header .cart {
   margin: 0 10px;
   cursor: pointer;
-  padding: 5px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 8px;
+  transition: background-color 0.9s ease, color 0.3s ease;
 }
 
 /* Hover Effects */
