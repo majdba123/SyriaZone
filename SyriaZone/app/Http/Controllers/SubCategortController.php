@@ -2,64 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sub_Categort;
-use Illuminate\Http\Request;
+use App\Http\Requests\SubCategory\StoreSubCategoryRequest;
+use App\Http\Requests\SubCategory\UpdateSubCategoryRequest;
+use App\Services\SubCategory\SubCategoryService;
+use Illuminate\Http\JsonResponse;
 
 class SubCategortController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $subcategoryService;
+
+    public function __construct(SubCategoryService $subcategoryService)
     {
-        //
+        $this->subcategoryService = $subcategoryService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        $categories = $this->subcategoryService->getAll();
+        return response()->json($categories);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show($id): JsonResponse
     {
-        //
+        $category = $this->subcategoryService->getById($id);
+        return response()->json($category);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Sub_Categort $sub_Categort)
+    public function store(StoreSubCategoryRequest $request): JsonResponse
     {
-        //
+        $category = $this->subcategoryService->store($request->validated());
+        return response()->json(['message' => 'Subcategory created successfully.', 'data' => $category], 201);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Sub_Categort $sub_Categort)
+    public function update(UpdateSubCategoryRequest $request, $id): JsonResponse
     {
-        //
+        $category = $this->subcategoryService->getById($id);
+        $updatedCategory = $this->subcategoryService->update($category, $request->validated());
+        return response()->json(['message' => 'Subcategory updated successfully.', 'data' => $updatedCategory]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Sub_Categort $sub_Categort)
+    public function destroy($id): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Sub_Categort $sub_Categort)
-    {
-        //
+        $category = $this->subcategoryService->getById($id);
+        $this->subcategoryService->delete($category);
+        return response()->json(['message' => 'Subcategory deleted successfully.']);
     }
 }
