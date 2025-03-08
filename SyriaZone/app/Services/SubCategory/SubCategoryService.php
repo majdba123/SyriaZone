@@ -31,4 +31,10 @@ class SubCategoryService
     {
         return $subcategory->delete();
     }
+
+
+    public function get_by_category_id($id)
+    {
+        return Sub_Categort::where('category_id' ,$id)->get(); // يرجع الخطأ 404 إذا لم يتم العثور
+    }
 }

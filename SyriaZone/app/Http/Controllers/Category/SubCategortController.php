@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Category;
+use App\Http\Controllers\Controller;
 
 use App\Http\Requests\SubCategory\StoreSubCategoryRequest;
 use App\Http\Requests\SubCategory\UpdateSubCategoryRequest;
@@ -46,5 +47,11 @@ class SubCategortController extends Controller
         $category = $this->subcategoryService->getById($id);
         $this->subcategoryService->delete($category);
         return response()->json(['message' => 'Subcategory deleted successfully.']);
+    }
+
+    public function get_by_category($categor_id): JsonResponse
+    {
+        $sub_category = $this->subcategoryService->get_by_category_id($categor_id);
+        return response()->json($sub_category);
     }
 }

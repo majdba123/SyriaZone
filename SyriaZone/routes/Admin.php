@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Category\CategoryController;
-use App\Http\Controllers\SubCategortController;
+use App\Http\Controllers\Category\SubCategortController;
+use App\Http\Controllers\AdminController;
 
 
 /*
@@ -26,9 +27,20 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     Route::prefix('subcategories')->group(function () {
         Route::get('getall/', [SubCategortController::class, 'index']); // عرض جميع الفئات الفرعية
+        Route::get('get_by_category/{category_id}/', [SubCategortController::class, 'get_by_category']); // عرض جميع الفئات الفرعية
         Route::get('show/{id}', [SubCategortController::class, 'show']); // عرض الفئة الفرعية حسب ID
         Route::post('store', [SubCategortController::class, 'store']); // إضافة فئة فرعية جديدة
         Route::put('update/{id}', [SubCategortController::class, 'update']); // تعديل الفئة الفرعية حسب ID
         Route::delete('delete/{id}', [SubCategortController::class, 'destroy']); // حذف الفئة الفرعية حسب ID
+    });
+
+
+    Route::prefix('vendores')->group(function () {
+        Route::post('store', [AdminController::class, 'createUserAndVendor']);
+        Route::put('update/{vendor_id}', [AdminController::class, 'updateUserAndVendor']);
+        Route::post('update_status/{vendor_id}', [AdminController::class, 'updateVendorStatus']);
+        Route::get('/get_by_status', [AdminController::class, 'getVendorsByStatus']);
+        Route::get('/show_info/{vendor_id}', [AdminController::class, 'getVendorInfo']);
+
     });
 });
