@@ -2,11 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Category\CategoryController;
-use App\Http\Controllers\Category\SubCategortController;
-use App\Http\Controllers\Category\CategoryVendorController;
 use App\Http\Controllers\Product\ProductController;
-
+use App\Http\Controllers\Category\SubCategortController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,29 +18,39 @@ use App\Http\Controllers\Product\ProductController;
 |
 */
 
-Route::middleware(['auth:sanctum', 'vendor'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
+
+
+
+  /*  Route::post('/profile/store', [ProfileController::class, 'storeProfile']);
+    Route::post('/profile/update', [ProfileController::class, 'updateProfile']);
+    Route::put('/my_info/update', [ProfileController::class, 'UpdateInfo']);
+    Route::get('/my_info/get', [ProfileController::class, 'getUserInfo']);
+
+    */
 
     Route::prefix('categories')->group(function () {
         Route::get('get_all', [CategoryController::class, 'index']);
         Route::get('show/{id}', [CategoryController::class, 'show']);
-        Route::post('select_category', [CategoryVendorController::class, 'store']);
-
     });
 
+
     Route::prefix('subcategories')->group(function () {
+        Route::get('getall/', [SubCategortController::class, 'index']); // عرض جميع الفئات الفرعية
         Route::get('get_by_category/{category_id}/', [SubCategortController::class, 'get_by_category']); // عرض جميع الفئات الفرعية
         Route::get('show/{id}', [SubCategortController::class, 'show']); // عرض الفئة الفرعية حسب ID
 
     });
 
     Route::prefix('product')->group(function () {
-        Route::get('/get_all', [ProductController::class, 'getVendorProducts']);
-        Route::get('show/{product_id}', [ProductController::class, 'getProductById']);
-        Route::post('store', [ProductController::class, 'store']);
-        Route::post('update/{product_id}', [ProductController::class, 'update']);
-        Route::delete('delete/{product_id}', [ProductController::class, 'destroy']);
+
+        Route::get('/category/{categoryId}', [ProductController::class, 'getProductsByCategory']);
+        Route::get('/subcategory/{subCategoryId}', [ProductController::class, 'getProductsBySubCategory']);
+        Route::get('/search', [ProductController::class, 'searchProducts']);
+        Route::get('/vendor/{vendorId}', [ProductController::class, 'getProductsByVendor']);
 
         });
+
 
 
 });

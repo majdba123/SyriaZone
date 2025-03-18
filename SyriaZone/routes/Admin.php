@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\SubCategortController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Product\ProductController;
 
 
 /*
@@ -43,4 +44,14 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         Route::get('/show_info/{vendor_id}', [AdminController::class, 'getVendorInfo']);
 
     });
+
+
+    Route::prefix('product')->group(function () {
+
+        Route::get('/category/{categoryId}', [ProductController::class, 'getProductsByCategory']);
+        Route::get('/subcategory/{subCategoryId}', [ProductController::class, 'getProductsBySubCategory']);
+        Route::get('/search', [ProductController::class, 'searchProducts']);
+        Route::get('/vendor/{vendorId}', [ProductController::class, 'getProductsByVendor']);
+
+        });
 });

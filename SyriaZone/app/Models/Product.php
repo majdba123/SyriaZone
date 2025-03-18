@@ -9,16 +9,19 @@ class Product extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'sub_category_id',
+        'sub__categort_id',
+        'vendor_id',
         'name',
         'discription',
         'price',
-
-
     ];
     public function subcategory()
     {
-        return $this->belongsTo(Sub_Categort::class,'sub_category_id');
+        return $this->belongsTo(Sub_Categort::class,'sub__categort_id');
+    }
+    public function vendor()
+    {
+        return $this->belongsTo(vendor::class,'vendor_id');
     }
     public function discount()
     {
@@ -28,4 +31,11 @@ class Product extends Model
     {
         return $this->hasMany(Order_Product::class);
     }
+
+    public function images()
+    {
+        return $this->hasMany(ImagProduct::class);
+    }
+
+
 }
