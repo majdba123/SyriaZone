@@ -159,7 +159,7 @@ class ProductService
     // جلب المنتجات حسب الفئة الفرعية
     public function getProductsBySubCategory($subCategoryId, $perPage)
     {
-        return Product::where('sub_category_id', $subCategoryId)
+        return Product::where('sub__categort_id', $subCategoryId)
             ->with(['subcategory', 'discount', 'images'])
             ->orderBy('created_at', 'desc') // ترتيب المنتجات حسب الأحدث
             ->paginate($perPage)

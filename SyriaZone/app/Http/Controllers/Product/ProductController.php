@@ -269,12 +269,6 @@ class ProductController extends Controller
         // Retrieve products using service and criteria
         $products = $this->productService->searchProducts($name, $minPrice, $maxPrice, $perPage);
 
-        if ($products->isEmpty()) {
-            return response()->json([
-                'message' => 'No products found matching the criteria',
-            ], 404);
-        }
-
         return response()->json([
             'message' => 'Products fetched successfully',
             'products' => $products,
