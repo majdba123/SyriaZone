@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Category\SubCategortController;
+use App\Http\Controllers\Order\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,13 +44,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::prefix('product')->group(function () {
-
         Route::get('/category/{categoryId}', [ProductController::class, 'getProductsByCategory']);
         Route::get('/subcategory/{subCategoryId}', [ProductController::class, 'getProductsBySubCategory']);
         Route::get('/search', [ProductController::class, 'searchProducts']);
         Route::get('/vendor/{vendorId}', [ProductController::class, 'getProductsByVendor']);
-
         });
+
+
+        Route::prefix('orders')->group(function () {
+            Route::post('/store', [OrderController::class, 'createOrder']);
+            Route::get('/ByStatus', [OrderController::class, 'getUserOrders']);
+            Route::get('/get_product/{order_id}', [OrderController::class, 'getProductOrder']);
+        });
+
 
 
 
