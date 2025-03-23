@@ -50,6 +50,7 @@ Route::middleware(['auth:sanctum', 'vendor'])->group(function () {
         Route::get('get_all', [VendorController::class, 'getVendorOrders']);
         Route::get('get_all_by_status', [VendorController::class, 'getVendorOrdersByStatus']);
         Route::get('/get_all_by_produt_id/{product_id}', [VendorController::class, 'getOrdersByProductId']);
+        Route::get('/get_all_by_user_id/{user_id}', [VendorController::class, 'getVendorOrdersByOrderProductStatus']);
 
     });
 

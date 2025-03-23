@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order_Product;
 use App\Models\Product;
 use App\Models\vendor;
 use Illuminate\Http\Request;
@@ -120,6 +121,60 @@ class VendorController extends Controller
 
         return response()->json(['orders' => $orders], 200);
     }
+
+
+
+    public function getVendorOrdersByOrderProductStatus(Request $request, $user_id, $product_id = null)
+    {
+        // التحقق من صحة الإدخال (status)
+        $request->validate([
+            'status' => 'nullable|string|in:pending,complete,cancelled', // القيم المسموح بها
+        ]);
+
+        $status = $request->input('status'); // قراءة حالة الطلب إذا تم إرسالها
+
+        // جلب المستخدم الحالي
+        $user = Auth::user();
+
+        // التحقق من وجود التاجر المرتبط بالمستخدم
+        if (!$user || !$user->vendor) {
+            return response()->json(['error' => 'Vendor not found for the current user.'], 403);
+        }
+
+        // جلب التاجر المرتبط
+        $vendor = $user->vendor;
+
+        // البحث عن الطلبات الخاصة بـ user_id والتي ترتبط بمنتجات التاجر
+        $ordersQuery = Order_Product::whereHas('order', function ($query) use ($user_id) {
+            $query->where('user_id', $user_id); // الطلبات الخاصة بـ user_id
+        })->whereHas('product', function ($query) use ($vendor) {
+            $query->where('vendor_id', $vendor->id); // المنتجات الخاصة بالتاجر
+        });
+
+        // إذا تم إرسال product_id يتم تصفية الطلبات بناءً عليه
+        if ($product_id) {
+            $ordersQuery->where('product_id', $product_id);
+        }
+
+        // إذا تم إرسال حالة status يتم تصفية الطلبات بناءً عليها
+        if ($status) {
+            $ordersQuery->where('status', $status);
+        }
+
+        // جلب الطلبات مع تضمين العلاقات المطلوبة
+        $orders = $ordersQuery
+            ->with(['order:id,user_id,status,created_at', 'product:id,name'])
+            ->get();
+
+        // إذا لم يتم العثور على الطلبات
+        if ($orders->isEmpty()) {
+            return response()->json(['message' => 'No orders found for the specified criteria.'], 404);
+        }
+
+        return response()->json(['orders' => $orders], 200);
+    }
+
+
 
 
 
