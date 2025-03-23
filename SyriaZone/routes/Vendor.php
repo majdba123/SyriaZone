@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\Category\SubCategortController;
 use App\Http\Controllers\Category\CategoryVendorController;
 use App\Http\Controllers\Product\ProductController;
@@ -41,7 +42,16 @@ Route::middleware(['auth:sanctum', 'vendor'])->group(function () {
         Route::post('update/{product_id}', [ProductController::class, 'update']);
         Route::delete('delete/{product_id}', [ProductController::class, 'destroy']);
 
-        });
+    });
+
+
+    Route::prefix('orders')->group(function () {
+
+        Route::get('get_all', [VendorController::class, 'getVendorOrders']);
+        Route::get('get_all_by_status', [VendorController::class, 'getVendorOrdersByStatus']);
+        Route::get('/get_all_by_produt_id/{product_id}', [VendorController::class, 'getOrdersByProductId']);
+
+    });
 
 
 });

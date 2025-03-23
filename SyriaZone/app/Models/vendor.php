@@ -31,4 +31,17 @@ class vendor extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function orders()
+    {
+        return $this->hasManyThrough(
+            Order_Product::class, // النموذج الوسيط
+            Product::class,       // النموذج المرتبط
+            'vendor_id',          // المفتاح الأجنبي في جدول المنتجات
+            'product_id',         // المفتاح الأجنبي في جدول Order_Product
+            'id',                 // المفتاح الأساسي في جدول Vendor
+            'id'                  // المفتاح الأساسي في جدول Product
+        );
+    }
+
 }

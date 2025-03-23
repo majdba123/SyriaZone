@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Order::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('total_price');
+            $table->string('status')->default('pending');
             $table->string('quantity');
             $table->timestamps();
         });
