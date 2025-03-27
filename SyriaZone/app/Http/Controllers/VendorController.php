@@ -61,16 +61,24 @@ class VendorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function getVendorOrders()
+    public function getVendorOrders($vendor_id = null)
     {
-        $user_id=Auth::user();
-        $vendor=vendor::findOrfail($user_id->vendor->id);
+        if ($vendor_id) {
+            // إذا كان $vendor_id موجودًا، فهذا يعني أن الطلب من المسؤول
+            $vendor = vendor::findOrFail($vendor_id);
+        } else {
+            // إذا لم يكن $vendor_id موجودًا، فهذا يعني أن الطلب من التاجر
+            $user_id = Auth::user();
+            $vendor = vendor::findOrFail($user_id->vendor->id);
+        }
+
         $orders = $vendor->orders()
             ->with(['order:id,status,created_at', 'Product:id,name'])
             ->get();
 
         return response()->json(['orders' => $orders], 200);
     }
+
 
 
     public function getVendorOrdersByStatus(Request $request)
@@ -147,7 +155,7 @@ class VendorController extends Controller
         // البحث عن الطلبات الخاصة بـ user_id والتي ترتبط بمنتجات التاجر
         $ordersQuery = Order_Product::whereHas('order', function ($query) use ($user_id) {
             $query->where('user_id', $user_id); // الطلبات الخاصة بـ user_id
-        })->whereHas('product', function ($query) use ($vendor) {
+        })->whereHas('Product', function ($query) use ($vendor) {
             $query->where('vendor_id', $vendor->id); // المنتجات الخاصة بالتاجر
         });
 
@@ -163,7 +171,7 @@ class VendorController extends Controller
 
         // جلب الطلبات مع تضمين العلاقات المطلوبة
         $orders = $ordersQuery
-            ->with(['order:id,user_id,status,created_at', 'product:id,name'])
+            ->with(['order:id,user_id,status,created_at', 'Product:id,name'])
             ->get();
 
         // إذا لم يتم العثور على الطلبات

@@ -6,6 +6,7 @@ use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\SubCategortController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\VendorController;
 
 
 /*
@@ -54,4 +55,19 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         Route::get('/vendor/{vendorId}', [ProductController::class, 'getProductsByVendor']);
 
         });
+
+
+    Route::prefix('orders')->group(function () {
+
+            Route::get('get_all/ByVendor/{id}', [VendorController::class, 'getVendorOrders']);
+            Route::get('get_all_by_status', [AdminController::class, 'getOrdersByStatus']);
+            Route::get('get_all_by_price', [AdminController::class, 'getOrdersByPriceRange']);
+            Route::get('/get_all_by_produt_id/{product_id}', [AdminController::class, 'getOrdersByProduct']);
+            Route::get('/get_all_by_user_id/{user_id}', [AdminController::class, 'getOrdersByUser']);
+            Route::get('/get_all_by_category/{category_id}', [AdminController::class, 'getOrdersByCategory']);
+            Route::get('/get_all_by_sub_category/{sub_category_id}', [AdminController::class, 'getOrdersBySubCategory']);
+
+        });
+
+
 });

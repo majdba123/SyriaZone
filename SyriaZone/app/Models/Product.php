@@ -39,6 +39,18 @@ class Product extends Model
 
 
 
+    public function scopeByCategory($query, $categoryId)
+    {
+        return $query->whereHas('subcategory', function ($q) use ($categoryId) {
+            $q->where('category_id', $categoryId);
+        });
+    }
+
+    public function scopeBySubCategory($query, $subCategoryId)
+    {
+        return $query->where('sub__categort_id', $subCategoryId);
+    }
+
 
 
 

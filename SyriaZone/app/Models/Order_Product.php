@@ -25,4 +25,10 @@ class Order_Product extends Model
     {
         return $this->belongsTo(Product::class,'product_id');
     }
+
+    public function scopeByProduct($query, $productId)
+    {
+        return $query->where('product_id', $productId);
+    }
+
 }
