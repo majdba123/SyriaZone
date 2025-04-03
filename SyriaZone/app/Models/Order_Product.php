@@ -31,4 +31,5 @@ class Order_Product extends Model
         return $query->where('product_id', $productId);
     }
 
+
 }

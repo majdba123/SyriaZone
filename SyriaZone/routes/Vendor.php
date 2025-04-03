@@ -7,6 +7,9 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\Category\SubCategortController;
 use App\Http\Controllers\Category\CategoryVendorController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\CommissionController;
+use App\Http\Controllers\VendorProfileController;
+
 
 
 /*
@@ -21,6 +24,10 @@ use App\Http\Controllers\Product\ProductController;
 */
 
 Route::middleware(['auth:sanctum', 'vendor'])->group(function () {
+
+
+    Route::get('dashboard', [VendorProfileController::class, 'VendorDashboard']);
+
 
     Route::prefix('categories')->group(function () {
         Route::get('get_all', [CategoryController::class, 'index']);
@@ -51,6 +58,13 @@ Route::middleware(['auth:sanctum', 'vendor'])->group(function () {
         Route::get('get_all_by_status', [VendorController::class, 'getVendorOrdersByStatus']);
         Route::get('/get_all_by_produt_id/{product_id}', [VendorController::class, 'getOrdersByProductId']);
         Route::get('/get_all_by_user_id/{user_id}', [VendorController::class, 'getVendorOrdersByOrderProductStatus']);
+
+    });
+
+
+    Route::prefix('commissions')->group(function () {
+        Route::get('calculate', [CommissionController::class, 'getVendorCommission']);
+        Route::get('calculate/Product/{poduct_id}', [CommissionController::class, 'calculateByProduct']);
 
     });
 

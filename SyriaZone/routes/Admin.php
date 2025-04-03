@@ -7,7 +7,8 @@ use App\Http\Controllers\Category\SubCategortController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\VendorController;
-
+use App\Http\Controllers\CommissionController;
+use App\Http\Controllers\VendorProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,8 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         Route::post('update_status/{vendor_id}', [AdminController::class, 'updateVendorStatus']);
         Route::get('/get_by_status', [AdminController::class, 'getVendorsByStatus']);
         Route::get('/show_info/{vendor_id}', [AdminController::class, 'getVendorInfo']);
+        Route::get('get_statical_commission/{vendor_id}', [VendorProfileController::class, 'VendorDashboard']);
+
 
     });
 
@@ -68,6 +71,14 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
             Route::get('/get_all_by_sub_category/{sub_category_id}', [AdminController::class, 'getOrdersBySubCategory']);
 
         });
+
+
+    Route::prefix('commissions')->group(function () {
+            Route::get('calculate/{vendor_id}', [CommissionController::class, 'getVendorCommission']);
+            Route::get('calculate/Vendor_Product/{poduct_id}', [CommissionController::class, 'calculateByProduct']);
+
+        });
+
 
 
 });

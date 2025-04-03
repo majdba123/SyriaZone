@@ -44,4 +44,51 @@ class vendor extends Model
         );
     }
 
+
+    public function vendor_profile()
+    {
+        return $this->hasOne(VendorProfile::class);
+    }
+
+
+
+    public function getCompletedOrdersCountAttribute()
+    {
+        return $this->orders()->where('status', 'complete')->count();
+    }
+
+    public function getPendingOrdersCountAttribute()
+    {
+        return $this->orders()->where('status', 'pending')->count();
+    }
+
+    public function getCancelledOrdersCountAttribute()
+    {
+        return $this->orders()->where('status', 'cancelled')->count();
+    }
+
+
+    public function getTotalSalesAttribute()
+    {
+        return $this->orders()->where('status', 'complete')->sum('total_price');
+    }
+
+
+    public function getTotalSalesPendingAttribute()
+    {
+        return $this->orders()->where('status', 'pending')->sum('total_price');
+    }
+
+    // إجمالي العمولات
+    public function getTotalCommissionsAttribute()
+    {
+        return $this->orders()->where('status', 'complete')
+            ->with(['product.subcategory.category'])
+            ->get()
+            ->sum(function($order) {
+                $rate = $order->product->subcategory->category->percent / 100;
+                return $order->total_price * $rate;
+            });
+    }
+
 }
