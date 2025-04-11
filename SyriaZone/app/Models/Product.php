@@ -17,11 +17,11 @@ class Product extends Model
     ];
     public function subcategory()
     {
-        return $this->belongsTo(Sub_Categort::class,'sub__categort_id');
+        return $this->belongsTo(Sub_Categort::class, 'sub__categort_id');
     }
     public function vendor()
     {
-        return $this->belongsTo(vendor::class,'vendor_id');
+        return $this->belongsTo(vendor::class, 'vendor_id');
     }
     public function discount()
     {
@@ -37,8 +37,6 @@ class Product extends Model
         return $this->hasMany(ImagProduct::class);
     }
 
-
-
     public function scopeByCategory($query, $categoryId)
     {
         return $query->whereHas('subcategory', function ($q) use ($categoryId) {
@@ -50,6 +48,7 @@ class Product extends Model
     {
         return $query->where('sub__categort_id', $subCategoryId);
     }
+
 
 
 

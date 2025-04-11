@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\Vendor\CreateUserAndVendorRequest;
 use App\Http\Requests\Vendor\UpdateUserAndVendorRequest;
 use Illuminate\Http\JsonResponse;
@@ -14,7 +15,7 @@ class AdminController extends Controller
 {
     protected $service;
     protected $order;
-    public function __construct(UserVendorService $service ,OrderService $order )
+    public function __construct(UserVendorService $service, OrderService $order)
     {
         $this->service = $service;
         $this->order = $order;
@@ -226,11 +227,4 @@ class AdminController extends Controller
             ], 500);
         }
     }
-
-
-
-
-
-
-
 }
