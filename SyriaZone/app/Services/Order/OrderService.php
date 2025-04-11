@@ -39,6 +39,44 @@ class OrderService
         return $order;
     }
 
+    public function groupProductsByVendor(array $orderData)
+    {
+        $vendorsGroup = [];
+
+        foreach ($orderData['products'] as $productData) {
+            $product = Product::with('vendor')->find($productData['product_id']);
+
+            if (!$product) {
+                continue; // أو يمكنك رمي استثناء هنا
+            }
+
+            $vendorId = $product->vendor->id;
+
+            if (!isset($vendorsGroup[$vendorId])) {
+                $vendorsGroup[$vendorId] = [
+                    'vendor_id' => $vendorId,
+                    'vendor_name' => $product->vendor->name,
+                    'products' => [],
+                    'products_total' => 0
+                ];
+            }
+
+            $productTotal = $product->price * $productData['quantity'];
+
+            $vendorsGroup[$vendorId]['products'][] = [
+                'product_id' => $product->id,
+                'product_name' => $product->name,
+                'quantity' => $productData['quantity'],
+                'unit_price' => $product->price,
+
+            ];
+
+            $vendorsGroup[$vendorId]['products_total'] += $productTotal;
+        }
+
+        return array_values($vendorsGroup);
+    }
+
     public function getOrdersByPriceRange($minPrice, $maxPrice)
     {
         $orders = Order::whereBetween('total_price', [$minPrice, $maxPrice])

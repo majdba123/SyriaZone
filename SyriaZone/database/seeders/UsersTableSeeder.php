@@ -35,14 +35,17 @@ class UsersTableSeeder extends Seeder
             'name' => 'vendor',
             'email' => 'vendor@example.com',
             'password' => Hash::make('password'),
+            'lat' => 33.52279593033495, // خط العرض (يجب أن يكون بين -90 و 90)
+            'lang' => 36.27648767156756, // خط الطول (يجب أن يكون بين -180 و 180)
             'type' => 0,
         ]);
-
         User::create([
             'id' => 4,
             'name' => 'vendor2',
             'email' => 'vendor2@example.com',
             'password' => Hash::make('password'),
+            'lat' => 33.52298793448784, // خط العرض (يجب أن يكون بين -90 و 90)
+            'lang' => 36.276547852276906, // خط الطول (يجب أن يكون بين -180 و 180)
             'type' => 0,
         ]);
 

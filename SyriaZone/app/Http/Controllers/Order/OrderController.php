@@ -27,6 +27,15 @@ class OrderController extends Controller
         return response()->json($order, 201);
     }
 
+
+    public function process_order(CreateOrderRequest $request)
+    {
+        $order = $this->orderService->groupProductsByVendor($request->validated());
+
+        return response()->json($order, 201);
+    }
+
+
     public function getUserOrders(Request $request)
     {
 

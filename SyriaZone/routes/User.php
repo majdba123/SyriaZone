@@ -52,6 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
         Route::prefix('orders')->group(function () {
+            Route::post('/process_order', [OrderController::class, 'process_order']);
             Route::post('/store', [OrderController::class, 'createOrder']);
             Route::get('/ByStatus', [OrderController::class, 'getUserOrders']);
             Route::get('/get_product/{order_id}', [OrderController::class, 'getProductOrder']);

@@ -17,13 +17,20 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+     // في ملف app/Models/User.php
+
     protected $fillable = [
         'name',
         'email',
         'type',
         'phone',
         'password',
+        'lang',
+        'lat'
     ];
+
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -43,6 +50,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'lat' => 'float',
+        'lang' => 'float',
     ];
 
     public function order()

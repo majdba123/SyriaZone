@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('type')->default(0);
+            $table->string('type')->default('user');
+            $table->decimal('lat', 12, 9)->nullable(); // خط العرض
+            $table->decimal('lang', 12, 9)->nullable(); // خط الطول
             $table->string('phone')->unique()->nullable();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();

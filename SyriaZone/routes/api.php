@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DeliveryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Registration\RegisterController;
@@ -46,6 +47,11 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('auth/facebook/redirect', [FacebookController::class, 'redirect']);
     Route::get('auth/facebook/callback', [FacebookController::class, 'callback']);
 });
+
+
+
+Route::post('/distance/calculate-cost', [DeliveryController::class, 'calculateDeliveryCost']);
+
 
 
 
